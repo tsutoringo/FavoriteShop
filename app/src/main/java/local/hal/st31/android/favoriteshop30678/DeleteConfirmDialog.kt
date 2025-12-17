@@ -1,14 +1,13 @@
 package local.hal.st31.android.favoriteshop30678
 
 import android.app.Dialog
-import android.content.Context
 import android.content.DialogInterface
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 
-class ConfirmDialog : DialogFragment() {
+class DeleteConfirmDialog : DialogFragment() {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val builder = AlertDialog.Builder(requireActivity())
@@ -18,7 +17,6 @@ class ConfirmDialog : DialogFragment() {
         builder.setNegativeButton(R.string.dlg_bt_ng, DialogButtonClickListener())
         return builder.create()
     }
-
     private inner class DialogButtonClickListener : DialogInterface.OnClickListener {
         override fun onClick(dialog: DialogInterface, which: Int) {
             when (which) {

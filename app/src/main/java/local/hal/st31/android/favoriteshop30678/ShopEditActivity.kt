@@ -2,7 +2,6 @@ package local.hal.st31.android.favoriteshop30678
 
 import android.os.Bundle
 import android.view.MenuItem
-import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -90,8 +89,10 @@ class ShopEditActivity : AppCompatActivity() {
         val note = binding.etMemo.text.toString()
 
         if (name.isEmpty()) {
-            Toast.makeText(this@ShopEditActivity, "店名を入力してください。", Toast.LENGTH_SHORT).show()
+            binding.tilShopName.error = "店名を入力してください。"
             return
+        } else {
+            binding.tilShopName.error = null
         }
 
         val result = shopRepository.saveShop(mode, shopId, name, tel, url, note)
@@ -101,7 +102,7 @@ class ShopEditActivity : AppCompatActivity() {
     }
 
     private fun deleteShop() {
-        val dialog = ConfirmDialog()
+        val dialog = DeleteConfirmDialog()
         dialog.show(supportFragmentManager, "ConfirmDialog")
     }
 

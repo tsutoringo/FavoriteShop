@@ -5,7 +5,7 @@
         android:id="@+id/menuSave"
         android:icon="@android:drawable/ic_menu_save"
         android:title="@string/bt_save"
-        app:showAsAction="always" />
+        app:showAsAction="ifRoom" />
     <item
         android:id="@+id/menuDelete"
         android:icon="@android:drawable/ic_menu_delete"
