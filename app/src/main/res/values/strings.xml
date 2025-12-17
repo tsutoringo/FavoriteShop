@@ -18,4 +18,8 @@
     <string name="et_memo_hint">メモ</string>
     <string name="bt_delete">削除</string>
     <string name="tb_menu_create">新規作成</string>
+    <string name="dlg_full_msg">削除確認ダイアログ</string>
+    <string name="dlg_msg">本当に削除しますか？</string>
+    <string name="dlg_bt_ok">削除</string>
+    <string name="dlg_bt_ng">キャンセル</string>
 </resources>

@@ -101,6 +101,11 @@ class ShopEditActivity : AppCompatActivity() {
     }
 
     private fun deleteShop() {
+        val dialog = ConfirmDialog()
+        dialog.show(supportFragmentManager, "ConfirmDialog")
+    }
+
+    fun deleteShopAfterConfirm() {
         shopRepository.deleteShop(shopId)
         finish()
     }
