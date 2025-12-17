@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">お気に入りの店</string>
+
+    <string name="bt_shop_create">新規作成</string>
+
+    <string name="et_shop_name">店名</string>
+    <string name="tv_title">好きなお店</string>
+    <string name="bt_back">戻る</string>
+    <string name="bt_save">登録</string>
+    <string name="bt_update">更新</string>
+    <string name="tv_shop_name">店名</string>
+    <string name="tv_tel">電話番号</string>
+    <string name="et_shop_name_hint">店名</string>
+    <string name="et_tel_hint">07019494902</string>
+    <string name="et_url">URL</string>
+    <string name="et_url_hint">https://google.com/</string>
+    <string name="et_memo_view">メモ</string>
+    <string name="et_memo_hint">メモ</string>
+    <string name="bt_delete">削除</string>
+</resources>
