@@ -1,13 +1,13 @@
 package local.hal.st31.android.favoriteshop30678
 
 import android.os.Bundle
-import android.view.View
+import android.view.MenuItem
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.core.view.isInvisible
 import local.hal.st31.android.favoriteshop30678.data.local.DatabaseHelper
 import local.hal.st31.android.favoriteshop30678.data.repository.ShopRepository
 import local.hal.st31.android.favoriteshop30678.databinding.ActivityShopEditBinding
@@ -17,7 +17,7 @@ class ShopEditActivity : AppCompatActivity() {
     private lateinit var databaseHelper: DatabaseHelper
     private lateinit var shopRepository: ShopRepository
 
-    private var shopId: Long = 0;
+    private var shopId: Long = 0
     private var mode = MODE_INSERT
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,10 +38,10 @@ class ShopEditActivity : AppCompatActivity() {
 
         val intent = intent
 
-        mode = intent.getIntExtra("mode", MODE_INSERT);
+        mode = intent.getIntExtra("mode", MODE_INSERT)
 
         if (mode == MODE_EDIT) {
-            shopId = intent.getLongExtra("shopId", 0);
+            shopId = intent.getLongExtra("shopId", 0)
             val shop = shopRepository.getById(shopId)
 
             if (shop != null) {
@@ -54,44 +54,54 @@ class ShopEditActivity : AppCompatActivity() {
             }
         }
 
+        binding.tbEdit.setNavigationOnClickListener { finish() }
+        binding.tbEdit.setOnMenuItemClickListener(ToolbarMenuItemClickListener())
+
         if (mode == MODE_INSERT) {
-            binding.btSave.setText(R.string.bt_save)
-            binding.btDelete.visibility = View.INVISIBLE
-        } else {
-            binding.btSave.setText(R.string.bt_update)
+            binding.tbEdit.menu.findItem(R.id.menuDelete).isVisible = false
         }
-
-        binding.btBack.setOnClickListener {
-            finish()
-        }
-        binding.btSave.setOnClickListener(SaveButtonClickListener())
-        binding.btDelete.setOnClickListener(DeleteButtonClickListener())
     }
 
-    private inner class SaveButtonClickListener : View.OnClickListener {
-        override fun onClick(v: View?) {
-            val name = binding.etShopName.text.toString()
-            val tel = binding.etTel.text.toString()
-            val url = binding.etUrl.text.toString()
-            val note = binding.etMemo.text.toString()
+    override fun onDestroy() {
+        databaseHelper.close()
+        super.onDestroy()
+    }
 
-            if (name.isEmpty()) {
-                Toast.makeText(this@ShopEditActivity, "店名を入力してください。", Toast.LENGTH_SHORT).show()
-
-                return
-            }
-
-            val result = shopRepository.saveShop(mode, shopId, name, tel, url, note)
-            if (result) {
-                finish()
+    private inner class ToolbarMenuItemClickListener : Toolbar.OnMenuItemClickListener {
+        override fun onMenuItemClick(item: MenuItem): Boolean {
+            return when (item.itemId) {
+                R.id.menuSave -> {
+                    saveShop()
+                    true
+                }
+                R.id.menuDelete -> {
+                    deleteShop()
+                    true
+                }
+                else -> false
             }
         }
     }
 
-    private inner class DeleteButtonClickListener : View.OnClickListener {
-        override fun onClick(v: View?) {
-            shopRepository.deleteShop(shopId)
+    private fun saveShop() {
+        val name = binding.etShopName.text.toString()
+        val tel = binding.etTel.text.toString()
+        val url = binding.etUrl.text.toString()
+        val note = binding.etMemo.text.toString()
+
+        if (name.isEmpty()) {
+            Toast.makeText(this@ShopEditActivity, "店名を入力してください。", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        val result = shopRepository.saveShop(mode, shopId, name, tel, url, note)
+        if (result) {
             finish()
         }
+    }
+
+    private fun deleteShop() {
+        shopRepository.deleteShop(shopId)
+        finish()
     }
 }

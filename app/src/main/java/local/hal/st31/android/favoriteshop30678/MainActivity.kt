@@ -3,10 +3,12 @@ package local.hal.st31.android.favoriteshop30678
 import android.content.Intent
 import android.database.Cursor
 import android.os.Bundle
+import android.view.MenuItem
 import android.view.View
 import android.widget.AdapterView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.cursoradapter.widget.SimpleCursorAdapter
@@ -49,7 +51,7 @@ class MainActivity : AppCompatActivity() {
             0
         )
 
-        binding.btCreateNew.setOnClickListener(CreateButtonClickListener())
+        binding.tbMain.setOnMenuItemClickListener(ToolbarClickListener())
     }
 
     override fun onDestroy() {
@@ -57,13 +59,24 @@ class MainActivity : AppCompatActivity() {
         super.onDestroy()
     }
 
-    private inner class CreateButtonClickListener: View.OnClickListener {
-        override fun onClick(v: View?) {
-            val intent = Intent(this@MainActivity, ShopEditActivity::class.java)
-            intent.putExtra("mode", MODE_INSERT)
+    private inner class ToolbarClickListener: Toolbar.OnMenuItemClickListener {
+        override fun onMenuItemClick(item: MenuItem): Boolean {
+            var returnVal = true
+            if (item.itemId == R.id.menuAdd) {
+                createNew()
+            } else {
+                returnVal = false
+            }
 
-            startActivity(intent)
+            return returnVal
         }
+    }
+
+    private fun createNew() {
+        val intent = Intent(this@MainActivity, ShopEditActivity::class.java)
+        intent.putExtra("mode", MODE_INSERT)
+
+        startActivity(intent)
     }
 
     private inner class ListItemClickListener: AdapterView.OnItemClickListener {
